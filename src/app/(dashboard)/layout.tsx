@@ -10,11 +10,12 @@ const DashboardLayout = ({
   return (
     <div className='min-h-screen w-full bg-slate-50 flex flex-col'>
         <Navbar />
-        <Sidebar />
-        <main className='flex h-full flex-row mt-[60px] md:pl-64'>
-          {children}
-          
-        </main>
+        <div className='flex h-full flex-row mt-[60px]  w-full'>
+          <Sidebar />
+          <div className='w-full md:pl-64'>
+            {children}
+          </div>
+        </div>
     </div>
   )
 }

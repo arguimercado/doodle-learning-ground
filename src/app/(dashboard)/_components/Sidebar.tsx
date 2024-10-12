@@ -60,7 +60,7 @@ const SidebarRoute = ({ data }: { data: typeof sidebarData }) => {
 };
 const Sidebar = () => {
     return (
-        <div className="bg-white border-r hidden md:flex border-gray-200 flex-col h-full w-64 pt-4 fixed space-y-0 z-0 mt-[60px]">
+        <div className="bg-white border-r hidden md:flex border-gray-200 flex-col h-full w-64 pt-4 fixed space-y-0 z-0">
             {<SidebarRoute data={sidebarData} />}
         </div>
     );
