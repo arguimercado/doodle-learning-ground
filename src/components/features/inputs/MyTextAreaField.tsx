@@ -1,15 +1,24 @@
-import { FormControl, FormDescription, FormItem, FormLabel } from "@/components/ui/form";
+import { FormControl, FormDescription, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import React from "react";
 
-const MyTextAreaField = ({field,label,desc}: {label: string, field: any,desc?: string}) => {
+
+interface MyTextAreaFieldProps {
+    label: string;
+    field: any;
+    desc?: string;
+    placeholder?: string;
+}
+
+const MyTextAreaField : React.FC<MyTextAreaFieldProps> = ({label,field,desc,placeholder}) => {
     return (
         <FormItem>
             <FormLabel>{label}</FormLabel>
             <FormControl>
-                <Textarea placeholder="Enter course title" {...field} />
+                <Textarea placeholder={placeholder} {...field} />
             </FormControl>
             <FormDescription>{desc}</FormDescription>
+            <FormMessage />
         </FormItem>
     );
 };

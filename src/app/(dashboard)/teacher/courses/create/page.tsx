@@ -9,40 +9,55 @@ import MyInputField from '@/components/features/inputs/MyInputField'
 import MyTextAreaField from '@/components/features/inputs/MyTextAreaField'
 import MyCombobox from '@/components/features/inputs/MyCombobox'
 import { Button } from '@/components/ui/button'
+import HttpClient from '@/lib/http-client'
+import { useRouter } from 'next/navigation'
+import { useToast } from '@/hooks/use-toast'
+import { categoryOptions } from '@/data/constants'
+
 
 //create formschema using react-hook-form
 const formSchema = z.object({
     title: z.string(),
     description: z.string(),
-    category: z.string(),
+    categoryId: z.string(),
     author: z.string(),
     price: z.number(),
 })
 
-const categoryOptions = [
-    {value: 'web-dev', label: 'Web Development'},
-    {value: 'app-dev', label: 'App Development'},
-    {value: 'data-science', label: 'Data Science'},
-    {value: 'ai-ml', label: 'AI & ML'},
-    {value: 'cyber-sec', label: 'Cyber Security'},
-]
 
 const CourseAppForm = () => {
+    const router = useRouter()
+    const {toast} = useToast()
+
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             title: '',
             description: '',
-            category: '',
+            categoryId: '',
             author: '',
             price: 0,
         }
       })
 
 
-    const handleSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values)
+    const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+
+        
+        try {
+           //send data to server using http-client
+            const httpClient = new HttpClient()
+            const response = await httpClient.post('/courses', values);
+            console.log(response);
+            toast({
+                title: 'Course Created',
+                description: 'Course has been created successfully',
+            })
+        }
+        catch(err) {
+            console.log(err)
+        }
     }
 
     return (
@@ -60,7 +75,7 @@ const CourseAppForm = () => {
                 />
                  <FormField 
                     control={form.control}
-                    name='category' 
+                    name='categoryId' 
                     render={({ field }) => (<MyCombobox 
                                                 data={categoryOptions} 
                                                 field={field}  
@@ -75,7 +90,7 @@ const CourseAppForm = () => {
                  <FormField 
                     control={form.control}
                     name='price' 
-                    render={({ field }) => (<MyInputField type="number" field={field}  label='Price' desc='Enter course price' />)}
+                    render={({ field }) => (<MyInputField field={field}  label='Price' desc='Enter course price' />)}
                 />
                 <div className='flex flex-row items-center justify-end'>
                     <Button type='submit' >Create Course</Button>
