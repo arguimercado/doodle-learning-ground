@@ -12,8 +12,6 @@ export async function POST(req: Request) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-
-
         const {title,description,author,price} = await req.json() as Course;
         const course = await db.course.create({
             data: {
@@ -31,6 +29,36 @@ export async function POST(req: Request) {
         console.log("[COURSES POST ERROR]", err);
         return new NextResponse("Internal Server Error", { status: 500 });
         
+    }
+}
+
+export async function PUT(req: Request) {
+    try {
+
+        const {userId} = auth();
+        if(!userId) {
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
+
+        const {title,description,author,price} = await req.json() as Course;
+        
+        const course = await db.course.update({
+            where: {
+                id: req.params.courseId as string
+            },
+            data: {
+                title,
+                description,
+                author,
+                price,
+            }
+        });
+        
+        return NextResponse.json(course);
+    }
+    catch(err) {
+        console.log("[COURSES PUT ERROR]", err);
+        return new NextResponse("Internal Server Error", { status: 500 });
     }
 }
 

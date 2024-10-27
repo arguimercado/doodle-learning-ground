@@ -6,11 +6,11 @@ import { UploadThingError } from "uploadthing/server";
 const f = createUploadthing();
 
 const handleAuth = () => {
+
     const { userId } = auth();
     if (!userId) {
         throw new UploadThingError({ message: "Unauthorized", code: 'FORBIDDEN' });
     }
-
     return { userId };
 }
 
@@ -27,9 +27,6 @@ export const ourFileRouter = {
     chapterVideo: f({video: {maxFileSize: '512GB',maxFileCount: 1}})
         .middleware(() => handleAuth())
         .onUploadComplete(() => { }),
-    
-
-
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

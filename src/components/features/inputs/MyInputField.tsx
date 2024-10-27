@@ -12,7 +12,7 @@ interface MyInputFieldProps {
     placeholder?: string;
 }
 
-const MyInputField: React.FC<MyInputField> = ({field, label,desc,type,placeholder}) => {
+const MyInputField: React.FC<MyInputFieldProps> = ({field, label,desc,type,placeholder}) => {
     return (
         <FormItem>
             <FormLabel>{label}</FormLabel>
